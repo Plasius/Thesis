@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Thesis.Model4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CorePrices">
+          <Key>
+            <PropertyRef Name="CorePriceID" />
+          </Key>
+          <Property Name="CorePriceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CoreTypeID" Type="int" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cores">
+          <Key>
+            <PropertyRef Name="CoreID" />
+          </Key>
+          <Property Name="CoreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="CoreTypeID" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="length" Type="float" Nullable="false" />
+          <Property Name="width" Type="float" Nullable="false" />
+          <Property Name="thickness" Type="float" Nullable="false" />
+          <Property Name="total_required_area" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CoreTypes">
+          <Key>
+            <PropertyRef Name="CoreTypeID" />
+          </Key>
+          <Property Name="CoreTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coreTypeName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="companyName" Type="nvarchar(max)" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="taxNumber" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="payment_method" Type="nvarchar(max)" />
+          <Property Name="orderDate" Type="datetime" Nullable="false" />
+          <Property Name="mentions" Type="nvarchar(max)" />
+          <Property Name="workID" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="VeneerPrices">
+          <Key>
+            <PropertyRef Name="VeneerPriceID" />
+          </Key>
+          <Property Name="VeneerPriceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VeneerTypeID" Type="int" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Veneers">
+          <Key>
+            <PropertyRef Name="VeneerID" />
+          </Key>
+          <Property Name="VeneerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CoreID" Type="int" Nullable="false" />
+          <Property Name="VeneerTypeID" Type="int" Nullable="false" />
+          <Property Name="parallelLength" Type="int" Nullable="false" />
+          <Property Name="crossLength" Type="float" Nullable="false" />
+          <Property Name="thickness" Type="float" Nullable="false" />
+          <Property Name="isFaceVeneer" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VeneerTypes">
+          <Key>
+            <PropertyRef Name="VeneerTypeID" />
+          </Key>
+          <Property Name="VeneerTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="veneerTypeName" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID">
+          <End Role="CoreTypes" Type="Self.CoreTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CorePrices" Type="Self.CorePrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CoreTypes">
+              <PropertyRef Name="CoreTypeID" />
+            </Principal>
+            <Dependent Role="CorePrices">
+              <PropertyRef Name="CoreTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Cores_dbo_CoreTypes_CoreTypeID">
+          <End Role="CoreTypes" Type="Self.CoreTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cores" Type="Self.Cores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CoreTypes">
+              <PropertyRef Name="CoreTypeID" />
+            </Principal>
+            <Dependent Role="Cores">
+              <PropertyRef Name="CoreTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Cores_dbo_Orders_OrderID">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cores" Type="Self.Cores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Cores">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Orders_dbo_Customers_CustomerID">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID">
+          <End Role="VeneerTypes" Type="Self.VeneerTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VeneerPrices" Type="Self.VeneerPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VeneerTypes">
+              <PropertyRef Name="VeneerTypeID" />
+            </Principal>
+            <Dependent Role="VeneerPrices">
+              <PropertyRef Name="VeneerTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Veneers_dbo_Cores_CoreID">
+          <End Role="Cores" Type="Self.Cores" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Veneers" Type="Self.Veneers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cores">
+              <PropertyRef Name="CoreID" />
+            </Principal>
+            <Dependent Role="Veneers">
+              <PropertyRef Name="CoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID">
+          <End Role="VeneerTypes" Type="Self.VeneerTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Veneers" Type="Self.Veneers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VeneerTypes">
+              <PropertyRef Name="VeneerTypeID" />
+            </Principal>
+            <Dependent Role="Veneers">
+              <PropertyRef Name="VeneerTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ThesisModel4ModelStoreContainer">
+          <EntitySet Name="CorePrices" EntityType="Self.CorePrices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cores" EntityType="Self.Cores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CoreTypes" EntityType="Self.CoreTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VeneerPrices" EntityType="Self.VeneerPrices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Veneers" EntityType="Self.Veneers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VeneerTypes" EntityType="Self.VeneerTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID" Association="Self.FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID">
+            <End Role="CoreTypes" EntitySet="CoreTypes" />
+            <End Role="CorePrices" EntitySet="CorePrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Cores_dbo_CoreTypes_CoreTypeID" Association="Self.FK_dbo_Cores_dbo_CoreTypes_CoreTypeID">
+            <End Role="CoreTypes" EntitySet="CoreTypes" />
+            <End Role="Cores" EntitySet="Cores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Cores_dbo_Orders_OrderID" Association="Self.FK_dbo_Cores_dbo_Orders_OrderID">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Cores" EntitySet="Cores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Orders_dbo_Customers_CustomerID" Association="Self.FK_dbo_Orders_dbo_Customers_CustomerID">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID" Association="Self.FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID">
+            <End Role="VeneerTypes" EntitySet="VeneerTypes" />
+            <End Role="VeneerPrices" EntitySet="VeneerPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Veneers_dbo_Cores_CoreID" Association="Self.FK_dbo_Veneers_dbo_Cores_CoreID">
+            <End Role="Cores" EntitySet="Cores" />
+            <End Role="Veneers" EntitySet="Veneers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID" Association="Self.FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID">
+            <End Role="VeneerTypes" EntitySet="VeneerTypes" />
+            <End Role="Veneers" EntitySet="Veneers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Thesis.Model4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CorePrice">
+          <Key>
+            <PropertyRef Name="CorePriceID" />
+          </Key>
+          <Property Name="CorePriceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CoreTypeID" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CoreType" Relationship="Self.FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID" FromRole="CorePrices" ToRole="CoreTypes" />
+        </EntityType>
+        <EntityType Name="Core">
+          <Key>
+            <PropertyRef Name="CoreID" />
+          </Key>
+          <Property Name="CoreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="CoreTypeID" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="length" Type="Double" Nullable="false" />
+          <Property Name="width" Type="Double" Nullable="false" />
+          <Property Name="thickness" Type="Double" Nullable="false" />
+          <Property Name="total_required_area" Type="Double" Nullable="false" />
+          <NavigationProperty Name="CoreType" Relationship="Self.FK_dbo_Cores_dbo_CoreTypes_CoreTypeID" FromRole="Cores" ToRole="CoreTypes" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_dbo_Cores_dbo_Orders_OrderID" FromRole="Cores" ToRole="Orders" />
+          <NavigationProperty Name="Veneers" Relationship="Self.FK_dbo_Veneers_dbo_Cores_CoreID" FromRole="Cores" ToRole="Veneers" />
+        </EntityType>
+        <EntityType Name="CoreType">
+          <Key>
+            <PropertyRef Name="CoreTypeID" />
+          </Key>
+          <Property Name="CoreTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coreTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CorePrices" Relationship="Self.FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID" FromRole="CoreTypes" ToRole="CorePrices" />
+          <NavigationProperty Name="Cores" Relationship="Self.FK_dbo_Cores_dbo_CoreTypes_CoreTypeID" FromRole="CoreTypes" ToRole="Cores" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="companyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="taxNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_dbo_Orders_dbo_Customers_CustomerID" FromRole="Customers" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="payment_method" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="orderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="mentions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="workID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cores" Relationship="Self.FK_dbo_Cores_dbo_Orders_OrderID" FromRole="Orders" ToRole="Cores" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_dbo_Orders_dbo_Customers_CustomerID" FromRole="Orders" ToRole="Customers" />
+        </EntityType>
+        <EntityType Name="VeneerPrice">
+          <Key>
+            <PropertyRef Name="VeneerPriceID" />
+          </Key>
+          <Property Name="VeneerPriceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VeneerTypeID" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="VeneerType" Relationship="Self.FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID" FromRole="VeneerPrices" ToRole="VeneerTypes" />
+        </EntityType>
+        <EntityType Name="Veneer">
+          <Key>
+            <PropertyRef Name="VeneerID" />
+          </Key>
+          <Property Name="VeneerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CoreID" Type="Int32" Nullable="false" />
+          <Property Name="VeneerTypeID" Type="Int32" Nullable="false" />
+          <Property Name="parallelLength" Type="Int32" Nullable="false" />
+          <Property Name="crossLength" Type="Double" Nullable="false" />
+          <Property Name="thickness" Type="Double" Nullable="false" />
+          <Property Name="isFaceVeneer" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Core" Relationship="Self.FK_dbo_Veneers_dbo_Cores_CoreID" FromRole="Veneers" ToRole="Cores" />
+          <NavigationProperty Name="VeneerType" Relationship="Self.FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID" FromRole="Veneers" ToRole="VeneerTypes" />
+        </EntityType>
+        <EntityType Name="VeneerType">
+          <Key>
+            <PropertyRef Name="VeneerTypeID" />
+          </Key>
+          <Property Name="VeneerTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="veneerTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VeneerPrices" Relationship="Self.FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID" FromRole="VeneerTypes" ToRole="VeneerPrices" />
+          <NavigationProperty Name="Veneers" Relationship="Self.FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID" FromRole="VeneerTypes" ToRole="Veneers" />
+        </EntityType>
+        <Association Name="FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID">
+          <End Role="CoreTypes" Type="Self.CoreType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CorePrices" Type="Self.CorePrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CoreTypes">
+              <PropertyRef Name="CoreTypeID" />
+            </Principal>
+            <Dependent Role="CorePrices">
+              <PropertyRef Name="CoreTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Cores_dbo_CoreTypes_CoreTypeID">
+          <End Role="CoreTypes" Type="Self.CoreType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cores" Type="Self.Core" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CoreTypes">
+              <PropertyRef Name="CoreTypeID" />
+            </Principal>
+            <Dependent Role="Cores">
+              <PropertyRef Name="CoreTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Cores_dbo_Orders_OrderID">
+          <End Role="Orders" Type="Self.Order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cores" Type="Self.Core" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Cores">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Veneers_dbo_Cores_CoreID">
+          <End Role="Cores" Type="Self.Core" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Veneers" Type="Self.Veneer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cores">
+              <PropertyRef Name="CoreID" />
+            </Principal>
+            <Dependent Role="Veneers">
+              <PropertyRef Name="CoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Orders_dbo_Customers_CustomerID">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID">
+          <End Role="VeneerTypes" Type="Self.VeneerType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VeneerPrices" Type="Self.VeneerPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VeneerTypes">
+              <PropertyRef Name="VeneerTypeID" />
+            </Principal>
+            <Dependent Role="VeneerPrices">
+              <PropertyRef Name="VeneerTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID">
+          <End Role="VeneerTypes" Type="Self.VeneerType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Veneers" Type="Self.Veneer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VeneerTypes">
+              <PropertyRef Name="VeneerTypeID" />
+            </Principal>
+            <Dependent Role="Veneers">
+              <PropertyRef Name="VeneerTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CorePrices" EntityType="Self.CorePrice" />
+          <EntitySet Name="Cores" EntityType="Self.Core" />
+          <EntitySet Name="CoreTypes" EntityType="Self.CoreType" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="VeneerPrices" EntityType="Self.VeneerPrice" />
+          <EntitySet Name="Veneers" EntityType="Self.Veneer" />
+          <EntitySet Name="VeneerTypes" EntityType="Self.VeneerType" />
+          <AssociationSet Name="FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID" Association="Self.FK_dbo_CorePrices_dbo_CoreTypes_CoreTypeID">
+            <End Role="CoreTypes" EntitySet="CoreTypes" />
+            <End Role="CorePrices" EntitySet="CorePrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Cores_dbo_CoreTypes_CoreTypeID" Association="Self.FK_dbo_Cores_dbo_CoreTypes_CoreTypeID">
+            <End Role="CoreTypes" EntitySet="CoreTypes" />
+            <End Role="Cores" EntitySet="Cores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Cores_dbo_Orders_OrderID" Association="Self.FK_dbo_Cores_dbo_Orders_OrderID">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Cores" EntitySet="Cores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Veneers_dbo_Cores_CoreID" Association="Self.FK_dbo_Veneers_dbo_Cores_CoreID">
+            <End Role="Cores" EntitySet="Cores" />
+            <End Role="Veneers" EntitySet="Veneers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Orders_dbo_Customers_CustomerID" Association="Self.FK_dbo_Orders_dbo_Customers_CustomerID">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID" Association="Self.FK_dbo_VeneerPrices_dbo_VeneerTypes_VeneerTypeID">
+            <End Role="VeneerTypes" EntitySet="VeneerTypes" />
+            <End Role="VeneerPrices" EntitySet="VeneerPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID" Association="Self.FK_dbo_Veneers_dbo_VeneerTypes_VeneerTypeID">
+            <End Role="VeneerTypes" EntitySet="VeneerTypes" />
+            <End Role="Veneers" EntitySet="Veneers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ThesisModel4ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="CorePrices">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.CorePrice">
+              <MappingFragment StoreEntitySet="CorePrices">
+                <ScalarProperty Name="CorePriceID" ColumnName="CorePriceID" />
+                <ScalarProperty Name="CoreTypeID" ColumnName="CoreTypeID" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cores">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.Core">
+              <MappingFragment StoreEntitySet="Cores">
+                <ScalarProperty Name="CoreID" ColumnName="CoreID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CoreTypeID" ColumnName="CoreTypeID" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="thickness" ColumnName="thickness" />
+                <ScalarProperty Name="total_required_area" ColumnName="total_required_area" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoreTypes">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.CoreType">
+              <MappingFragment StoreEntitySet="CoreTypes">
+                <ScalarProperty Name="CoreTypeID" ColumnName="CoreTypeID" />
+                <ScalarProperty Name="coreTypeName" ColumnName="coreTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="taxNumber" ColumnName="taxNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="mentions" ColumnName="mentions" />
+                <ScalarProperty Name="workID" ColumnName="workID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VeneerPrices">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.VeneerPrice">
+              <MappingFragment StoreEntitySet="VeneerPrices">
+                <ScalarProperty Name="VeneerPriceID" ColumnName="VeneerPriceID" />
+                <ScalarProperty Name="VeneerTypeID" ColumnName="VeneerTypeID" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Veneers">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.Veneer">
+              <MappingFragment StoreEntitySet="Veneers">
+                <ScalarProperty Name="VeneerID" ColumnName="VeneerID" />
+                <ScalarProperty Name="CoreID" ColumnName="CoreID" />
+                <ScalarProperty Name="VeneerTypeID" ColumnName="VeneerTypeID" />
+                <ScalarProperty Name="parallelLength" ColumnName="parallelLength" />
+                <ScalarProperty Name="crossLength" ColumnName="crossLength" />
+                <ScalarProperty Name="thickness" ColumnName="thickness" />
+                <ScalarProperty Name="isFaceVeneer" ColumnName="isFaceVeneer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VeneerTypes">
+            <EntityTypeMapping TypeName="Thesis.Model4Model.VeneerType">
+              <MappingFragment StoreEntitySet="VeneerTypes">
+                <ScalarProperty Name="VeneerTypeID" ColumnName="VeneerTypeID" />
+                <ScalarProperty Name="veneerTypeName" ColumnName="veneerTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
