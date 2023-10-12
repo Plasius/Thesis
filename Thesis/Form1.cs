@@ -20,6 +20,7 @@ namespace Thesis
 
             using (var db = new Model1())
             {
+                /*
                 var Customer = new Customer { CustomerID=1, companyName = "abc", address = "Address", taxNumber = "TaxNumber" };
                 db.customers.Add(Customer);
 
@@ -63,10 +64,25 @@ namespace Thesis
                     output += item.companyName + "\n";
                 }
                 MessageBox.Show(output);
-
+                */
 
             }
         }
 
+        private void customersButton_Click(object sender, EventArgs e)
+        {
+            //create a new form and open it while hiding the current one
+            CustomersForm form2 = new CustomersForm();
+            form2.Show();
+            this.Hide();
+        }
+
+        private void coresButton_Click(object sender, EventArgs e)
+        {
+            //create a new CoreTypesForm and open it while hiding the current one
+            CoreTypesForm coreTypesForm = new CoreTypesForm();
+            coreTypesForm.Show();
+            this.Hide();
+        }
     }
 }
