@@ -12,9 +12,9 @@ using System.Data.Entity;
 namespace Thesis
 {
 
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -82,6 +82,14 @@ namespace Thesis
             //create a new CoreTypesForm and open it while hiding the current one
             CoreTypesForm coreTypesForm = new CoreTypesForm();
             coreTypesForm.Show();
+            this.Hide();
+        }
+
+        private void veneersButton_Click(object sender, EventArgs e)
+        {
+            //create a new VeneerTypesForm and open it while hiding the current one
+            VeneerTypesForm veneerTypesForm = new VeneerTypesForm();
+            veneerTypesForm.Show();
             this.Hide();
         }
     }

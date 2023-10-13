@@ -114,7 +114,7 @@ namespace Thesis
         private void back_Click(object sender, EventArgs e)
         {
             //create a new form and open it while hiding the current one
-            Form1 main = new Form1();
+            MainForm main = new MainForm();
             main.Show();
             this.Hide();
         }

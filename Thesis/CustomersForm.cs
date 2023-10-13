@@ -119,7 +119,7 @@ namespace Thesis
             // hide this form
             this.Hide();
             // show the main form
-            Form1 main = new Form1();
+            MainForm main = new MainForm();
             main.Show();
         }
     }

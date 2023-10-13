@@ -1,6 +1,6 @@
 ﻿namespace Thesis
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -62,6 +62,7 @@
             this.veneersButton.TabIndex = 2;
             this.veneersButton.Text = "Veneers";
             this.veneersButton.UseVisualStyleBackColor = true;
+            this.veneersButton.Click += new System.EventHandler(this.veneersButton_Click);
             // 
             // customersButton
             // 
@@ -82,7 +83,7 @@
             this.ordersButton.Text = "Orders";
             this.ordersButton.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -92,7 +93,7 @@
             this.Controls.Add(this.veneersButton);
             this.Controls.Add(this.coresButton);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
