@@ -122,7 +122,6 @@ namespace Thesis
         //delete selected CorePrice row from datagridview
         private void deleteCorePrice_Click(object sender, EventArgs e)
         {
-            //get the selected row
             // get the selected row
             try
             {
