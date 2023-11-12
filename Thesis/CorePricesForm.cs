@@ -69,7 +69,7 @@ namespace Thesis
         {
             CoreTypesForm coreTypesForm = new CoreTypesForm();
             coreTypesForm.Show();
-            this.Hide();
+            this.Close();
         }
 
         //save edited data with help of eventargs row location

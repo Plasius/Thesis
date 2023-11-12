@@ -14,7 +14,7 @@ namespace Thesis
         // If you wish to target a different database and/or database provider, modify the 'Model1' 
         // connection string in the application configuration file.
         public Model1()
-            : base("name=Model4")
+            : base("name=Model8")
         {
         }
 
@@ -54,7 +54,6 @@ namespace Thesis
         public string payment_method { get; set; }
         public DateTime orderDate { get; set; }
         public string mentions { get; set; }
-        public string workID { get; set; }
     }
 
     public class Core {
@@ -64,11 +63,14 @@ namespace Thesis
         public virtual Order order { get; set; }
         public int CoreTypeID { get; set; }
         public virtual CoreType coreType { get; set; }
+        public int FaceVeneerID { get; set; }
+        public virtual Veneer faceVeneer { get; set; }
+        public int BackVeneerID { get; set; }
+        public virtual Veneer backVeneer { get; set; }
         public int quantity { get; set; }
         public double length { get; set; }
         public double width { get; set; }
         public double thickness { get; set; } 
-        public double total_required_area { get; set; }
     
     }
 
@@ -76,14 +78,9 @@ namespace Thesis
     {
         [Key]
         public int VeneerID { get; set; }
-        public int CoreID { get; set; }
-        public virtual Core core { get; set; }
         public int VeneerTypeID { get; set; }
         public virtual VeneerType veneerType { get; set; }
-        public int parallelLength { get; set; }
-        public double crossLength { get; set; }
         public double thickness { get; set; }
-        public bool isFaceVeneer { get; set; }
 
     }
 

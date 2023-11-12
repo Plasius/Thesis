@@ -82,6 +82,7 @@
             this.ordersButton.TabIndex = 4;
             this.ordersButton.Text = "Orders";
             this.ordersButton.UseVisualStyleBackColor = true;
+            this.ordersButton.Click += new System.EventHandler(this.ordersButton_Click);
             // 
             // MainForm
             // 

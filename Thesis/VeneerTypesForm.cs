@@ -124,7 +124,7 @@ namespace Thesis
             //create a new form and open it while hiding the current one
             MainForm main = new MainForm();
             main.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

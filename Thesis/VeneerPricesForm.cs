@@ -65,7 +65,7 @@ namespace Thesis
         {
             VeneerTypesForm veneerTypesForm = new VeneerTypesForm();
             veneerTypesForm.Show();
-            this.Hide();
+            this.Close();
         }
 
         void addVeneerPrice_Click(object sender, EventArgs e)

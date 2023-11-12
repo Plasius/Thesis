@@ -117,7 +117,7 @@ namespace Thesis
         private void back_Click(object sender, EventArgs e)
         {
             // hide this form
-            this.Hide();
+            this.Close();
             // show the main form
             MainForm main = new MainForm();
             main.Show();
