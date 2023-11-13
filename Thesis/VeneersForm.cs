@@ -34,8 +34,15 @@ namespace Thesis
             comboBox2.DataSource = new Model1().veneerTypes.ToList();
             comboBox2.DisplayMember = "veneerTypeName";
             comboBox2.ValueMember = "VeneerTypeID";
+            comboBox2.SelectedIndex = 0;
+            textBox2.Text = "0";
 
-            
+            //make comboBox1 a dropdown of veneerTypes with IDs as values
+            comboBox1.DataSource = new Model1().veneerTypes.ToList();
+            comboBox1.DisplayMember = "veneerTypeName";
+            comboBox1.ValueMember = "VeneerTypeID";
+            comboBox1.SelectedIndex = 0;
+            textBox1.Text = "0";
 
             loadVeneerDetails();
         }
@@ -44,64 +51,33 @@ namespace Thesis
             //check if we have a face veneer
             using (Model1 db = new Model1())
             {
-            Veneer faceVeneer = db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().FaceVeneerID).FirstOrDefault();
+                Veneer faceVeneer = db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().FaceVeneerID).FirstOrDefault();
 
-            if (faceVeneer == null)
-            {
-                //create a brand new faceVeneer with 0 as thickness and the first veneertype as veneerTypeID
-                faceVeneer = new Veneer();
-                faceVeneer.thickness = 0;
-                faceVeneer.VeneerTypeID = new Model1().veneerTypes.FirstOrDefault().VeneerTypeID;
-                faceVeneer.VeneerID = new Model1().veneers.Count() + 1;
-
-
-                //add the new faceVeneer to the database and store the new ID
-                
-                db.veneers.Add(faceVeneer);
-                db.cores.Where(x => x.CoreID == OpenCoreID).FirstOrDefault().FaceVeneerID=faceVeneer.VeneerID;
-                db.SaveChanges();
-
-                textBox2.Text = "catch";
-                comboBox2.SelectedIndex = 0;
-            }
-            else
-            {
-                textBox2.Text = faceVeneer.thickness.ToString();
-                //select option in combobox for faceVeneer veneerTypeID
-                comboBox2.SelectedValue = faceVeneer.VeneerTypeID;
-            }
-
-            //check if we have a back veneer
-            Veneer backVeneer = db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID).FirstOrDefault();
-
-                if (backVeneer == null)
+                if (faceVeneer != null)
                 {
-                    checkBox1.Checked = false;
-                    //disable thickness and veneer type selection
-                    textBox1.Enabled = false;
-                    comboBox1.Enabled = false;
-
-
-                    textBox1.Text = "";
-                    comboBox1.DataSource = null;
-                }
-                else {
-                    checkBox1.Checked = true;
-                    //enable thickness and veneer type selection
-                    textBox1.Enabled = true;
-                    comboBox1.Enabled = true;
-
-                    //select thickness and veneer type
-                    textBox1.Text = backVeneer.thickness.ToString();
-
-                    //make comboBox1 a dropdown of veneerTypes with IDs as values
-                    comboBox1.DataSource = new Model1().veneerTypes.ToList();
-                    comboBox1.DisplayMember = "veneerTypeName";
-                    comboBox1.ValueMember = "VeneerTypeID";
-                    comboBox1.SelectedValue = backVeneer.VeneerTypeID;
-
+                    textBox2.Text = faceVeneer.thickness.ToString();
+                    comboBox2.SelectedValue = faceVeneer.VeneerTypeID;
                 }
 
+                //check if we have a back veneer
+                Veneer backVeneer = db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID).FirstOrDefault();
+
+                    if (backVeneer == null)
+                    {
+                        checkBox1.Checked = false;
+                        textBox1.Enabled = false;
+                        comboBox1.Enabled = false;
+                    }
+                    else {
+                        checkBox1.Checked = true;
+                        textBox1.Enabled = true;
+                        comboBox1.Enabled = true;
+
+                        //select thickness and veneer type
+                        textBox1.Text = backVeneer.thickness.ToString();
+                        comboBox1.SelectedValue = backVeneer.VeneerTypeID;
+
+                    }
 
             }
 
@@ -109,22 +85,67 @@ namespace Thesis
 
         private void back_Click(object sender, EventArgs e)
         {
-            //save thickness and selected veneerTypeID
+            //save thickness and selected veneerTypeIDs to the database
             using (Model1 db = new Model1())
             {
-                //get the faceVeneer
                 Veneer faceVeneer = db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().FaceVeneerID).FirstOrDefault();
-                //update thickness and veneerTypeID
-                faceVeneer.thickness = Convert.ToDouble(textBox2.Text);
-                faceVeneer.VeneerTypeID = Convert.ToInt32(comboBox2.SelectedValue);
+
+                if (faceVeneer == null)
+                {
+                    //create a brand new faceVeneer with 0 as thickness and the first veneertype as veneerTypeID
+                    faceVeneer = new Veneer();
+                    faceVeneer.thickness = Convert.ToDouble(textBox2.Text);
+                    faceVeneer.VeneerTypeID = Convert.ToInt32(comboBox2.SelectedValue);
+                    faceVeneer.VeneerID = new Model1().veneers.Count() + 1;
+
+
+                    //add the new faceVeneer to the database and store the new ID
+
+                    db.veneers.Add(faceVeneer);
+                    db.cores.Where(x => x.CoreID == OpenCoreID).FirstOrDefault().FaceVeneerID = faceVeneer.VeneerID;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //update thickness and veneerTypeID
+                    faceVeneer.thickness = Convert.ToDouble(textBox2.Text);
+                    faceVeneer.VeneerTypeID = Convert.ToInt32(comboBox2.SelectedValue);
+
+                }
+
+
 
                 //get the backVeneer
                 Veneer backVeneer = db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID).FirstOrDefault();
-                if(backVeneer != null)
+                if (checkBox1.Checked)
                 {
-                    //update thickness and veneerTypeID
-                    backVeneer.thickness = Convert.ToDouble(textBox1.Text);
-                    backVeneer.VeneerTypeID = Convert.ToInt32(comboBox1.SelectedValue);
+                    if (backVeneer == null)
+                    {
+                        backVeneer = new Veneer();
+                        backVeneer.thickness = Convert.ToDouble(textBox1.Text);
+                        backVeneer.VeneerTypeID = Convert.ToInt32(comboBox1.SelectedValue);
+                        backVeneer.VeneerID = db.veneers.Count() + 1;
+
+                        db.veneers.Add(backVeneer);
+                        db.cores.Where(x => x.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID = backVeneer.VeneerID;
+                        db.SaveChanges();
+                    }else
+                    {
+                        //update thickness and veneerTypeID
+                        backVeneer.thickness = Convert.ToDouble(textBox1.Text);
+                        backVeneer.VeneerTypeID = Convert.ToInt32(comboBox1.SelectedValue);
+
+                    }
+
+                }
+                else {
+
+                    if (backVeneer != null)
+                    {
+                        //remove backVeneer from database
+                        db.veneers.Remove(db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID).FirstOrDefault());
+                        db.cores.Where(x => x.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID = -1;
+                    }
                 }
 
                 //save changes
@@ -139,57 +160,17 @@ namespace Thesis
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            //get context and create a backveneer for the core with 0 thickness and first veneer type option
-            using(Model1 db = new Model1())
+            //if the checkbox is checked, add the backVeneer to the database and set the core's backVeneerID to the new backVeneer's ID
+            if (checkBox1.Checked)
             {
-                //if the checkbox is checked, add the backVeneer to the database and set the core's backVeneerID to the new backVeneer's ID
-                if (checkBox1.Checked)
-                {
-                    Veneer backVeneer = new Veneer();
-                    backVeneer.thickness = 0;
-                    backVeneer.VeneerTypeID = db.veneerTypes.FirstOrDefault().VeneerTypeID;
-                    backVeneer.VeneerID = db.veneers.Count() + 1;
-
-                    //make comboBox1 a dropdown of veneerTypes with IDs as values
-                    comboBox1.DataSource = new Model1().veneerTypes.ToList();
-                    comboBox1.DisplayMember = "veneerTypeName";
-                    comboBox1.ValueMember = "VeneerTypeID";
-                    comboBox1.SelectedIndex = 0;
-
-                    textBox1.Text = "0";
-
-                    //enable fields
-                    textBox1.Enabled = true;
-                    comboBox1.Enabled = true;
-
-                    db.veneers.Add(backVeneer);
-                    db.cores.Where(x => x.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID = backVeneer.VeneerID;
-                    db.SaveChanges();
-                }
-
-                //if the checkbox is unchecked, remove the backVeneer from the database and set the core's backVeneerID to null
-                else
-                {
-                    //remove backVeneer from database
-                    db.veneers.Remove(db.veneers.Where(x => x.VeneerID == db.cores.Where(y => y.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID).FirstOrDefault());
-                    db.cores.Where(x => x.CoreID == OpenCoreID).FirstOrDefault().BackVeneerID = -1;
-                    db.SaveChanges();
-
-                    //clear fields
-                    textBox1.Text = "";
-                    //clear combobox
-                    comboBox1.DataSource = null;
-
-                    //disable fields
-                    textBox1.Enabled = false;
-                    comboBox1.Enabled = false;
-
-                }
-
-
+                //enable fields
+                textBox1.Enabled = true;
+                comboBox1.Enabled = true;
             }
-
-
+            else {
+                textBox1.Enabled = false;
+                comboBox1.Enabled = false;
+            }
 
         }
     }
