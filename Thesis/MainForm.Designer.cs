@@ -95,7 +95,7 @@
             this.Controls.Add(this.coresButton);
             this.Controls.Add(this.label1);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Main page";
             this.ResumeLayout(false);
             this.PerformLayout();
 
