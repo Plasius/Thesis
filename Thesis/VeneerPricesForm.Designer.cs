@@ -60,7 +60,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "VeneerPricesForm";
-            this.Text = "VeneerPricesForm";
+            this.Text = "Price history - Veneers";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

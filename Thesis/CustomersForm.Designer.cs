@@ -43,14 +43,14 @@
             this.dataGridView1.Size = new System.Drawing.Size(667, 362);
             this.dataGridView1.TabIndex = 0;
             // 
-            // Form2
+            // CustomersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.dataGridView1);
-            this.Name = "Form2";
-            this.Text = "Form2";
+            this.Name = "CustomersForm";
+            this.Text = "Customer registry";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

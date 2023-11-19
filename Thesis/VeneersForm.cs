@@ -35,14 +35,12 @@ namespace Thesis
             comboBox2.DisplayMember = "veneerTypeName";
             comboBox2.ValueMember = "VeneerTypeID";
             comboBox2.SelectedIndex = 0;
-            textBox2.Text = "0";
 
             //make comboBox1 a dropdown of veneerTypes with IDs as values
             comboBox1.DataSource = new Model1().veneerTypes.ToList();
             comboBox1.DisplayMember = "veneerTypeName";
             comboBox1.ValueMember = "VeneerTypeID";
             comboBox1.SelectedIndex = 0;
-            textBox1.Text = "0";
 
             loadVeneerDetails();
         }
@@ -55,7 +53,6 @@ namespace Thesis
 
                 if (faceVeneer != null)
                 {
-                    textBox2.Text = faceVeneer.thickness.ToString();
                     comboBox2.SelectedValue = faceVeneer.VeneerTypeID;
                 }
 
@@ -65,16 +62,13 @@ namespace Thesis
                     if (backVeneer == null)
                     {
                         checkBox1.Checked = false;
-                        textBox1.Enabled = false;
                         comboBox1.Enabled = false;
                     }
                     else {
                         checkBox1.Checked = true;
-                        textBox1.Enabled = true;
                         comboBox1.Enabled = true;
 
                         //select thickness and veneer type
-                        textBox1.Text = backVeneer.thickness.ToString();
                         comboBox1.SelectedValue = backVeneer.VeneerTypeID;
 
                     }
@@ -94,7 +88,6 @@ namespace Thesis
                 {
                     //create a brand new faceVeneer with 0 as thickness and the first veneertype as veneerTypeID
                     faceVeneer = new Veneer();
-                    faceVeneer.thickness = Convert.ToDouble(textBox2.Text);
                     faceVeneer.VeneerTypeID = Convert.ToInt32(comboBox2.SelectedValue);
                     faceVeneer.VeneerID = new Model1().veneers.Count() + 1;
 
@@ -108,7 +101,6 @@ namespace Thesis
                 else
                 {
                     //update thickness and veneerTypeID
-                    faceVeneer.thickness = Convert.ToDouble(textBox2.Text);
                     faceVeneer.VeneerTypeID = Convert.ToInt32(comboBox2.SelectedValue);
 
                 }
@@ -122,7 +114,6 @@ namespace Thesis
                     if (backVeneer == null)
                     {
                         backVeneer = new Veneer();
-                        backVeneer.thickness = Convert.ToDouble(textBox1.Text);
                         backVeneer.VeneerTypeID = Convert.ToInt32(comboBox1.SelectedValue);
                         backVeneer.VeneerID = db.veneers.Count() + 1;
 
@@ -132,7 +123,6 @@ namespace Thesis
                     }else
                     {
                         //update thickness and veneerTypeID
-                        backVeneer.thickness = Convert.ToDouble(textBox1.Text);
                         backVeneer.VeneerTypeID = Convert.ToInt32(comboBox1.SelectedValue);
 
                     }
@@ -164,11 +154,9 @@ namespace Thesis
             if (checkBox1.Checked)
             {
                 //enable fields
-                textBox1.Enabled = true;
                 comboBox1.Enabled = true;
             }
             else {
-                textBox1.Enabled = false;
                 comboBox1.Enabled = false;
             }
 

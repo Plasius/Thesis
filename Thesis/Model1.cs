@@ -14,7 +14,7 @@ namespace Thesis
         // If you wish to target a different database and/or database provider, modify the 'Model1' 
         // connection string in the application configuration file.
         public Model1()
-            : base("name=Model8")
+            : base("name=Model9")
         {
         }
 
@@ -80,7 +80,6 @@ namespace Thesis
         public int VeneerID { get; set; }
         public int VeneerTypeID { get; set; }
         public virtual VeneerType veneerType { get; set; }
-        public double thickness { get; set; }
 
     }
 
